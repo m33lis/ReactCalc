@@ -15,34 +15,39 @@ var Calc = React.createClass({
                 num1 = numeral(this.refs.num1.value);
                 num2 = numeral(this.refs.num2.value);
 
-                if (this.refs.op !== null) {
-                    op = this.refs.op.value;
-                    if (op.length>0) {
-                        switch(op) {
-                            case '+':
-                                // operator +
-                                res = num1.add(num2.value()).value();
-                                break;
-                            case '-':
-                                // operator -
-                                res = num1.subtract(num2.value()).value();
-                                break;
-                            case '*':
-                                // operator *
-                                res = num1.multiply(num2.value()).value();
-                                break;
-                            case '/':
-                                // operator /, let's divide
-                                res = num1.divide(num2.value()).value();
-                                break;
-                            default:
-                                alert("ERROR: Wrong operator!", op);
+                if (num1.value() !== null && num2.value() !== null) {
+                    if (this.refs.op !== null) {
+                        op = this.refs.op.value;
+                        if (op.length>0) {
+                            switch(op) {
+                                case '+':
+                                    // operator +
+                                    res = num1.add(num2.value()).value();
+                                    break;
+                                case '-':
+                                    // operator -
+                                    res = num1.subtract(num2.value()).value();
+                                    break;
+                                case '*':
+                                    // operator *
+                                    res = num1.multiply(num2.value()).value();
+                                    break;
+                                case '/':
+                                    // operator /, let's divide
+                                    res = num1.divide(num2.value()).value();
+                                    break;
+                                default:
+                                    alert("ERROR: Wrong operator!", op);
+                            }
+                        } else {
+                            alert("ERROR:: Operator missing!");
                         }
-                    } else {
-                        alert("ERROR:: Operator missing!");
-                   }
-
-                   alert("Result: "+res);
+                    }
+                    if (!_.isUndefined(res)) {
+                        alert("Result: "+res);
+                    }
+                } else {
+                    alert("ERROR: One or both number values missing");
                 }
 
             } else {
@@ -63,7 +68,7 @@ var Calc = React.createClass({
                             <td></td>
                         </tr>
                         <tr>
-                            <td><input ref="num1" type="text" size="5" /></td>
+                            <td><input ref="num1" type="number" size="5" /></td>
                             <td><input ref="op" type="text" size="2" /></td>
                             <td><input ref="num2" type="number" size="5" /></td>
                             <td><button onClick={this.handleClick}>Calculate!</button></td>
