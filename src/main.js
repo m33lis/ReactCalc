@@ -36,6 +36,17 @@ var Calc = React.createClass({
                                     // operator /, let's divide
                                     res = num1.divide(num2.value()).value();
                                     break;
+                                case '%':
+                                    // reminder of division
+                                    res = num1.value() % num2.value();
+                                    break;
+
+                                case 'H':
+                                    // highest prime between num1 and num2
+                                    var primes = getPrimes(num2.value());
+                                    res = _.max(primes);
+
+                                    break;
                                 default:
                                     alert("ERROR: Wrong operator!", op);
                             }
@@ -54,11 +65,35 @@ var Calc = React.createClass({
                 alert("ERROR: one of the numbers entered is NaN!");
             }
         }
+
+        function getPrimes(max) {
+            var sieve = [], i, j, primes = [];
+            for (i = 2; i <= max; ++i) {
+                if (!sieve[i]) {
+                    // i has not been marked -- it is prime
+                    primes.push(i);
+                    for (j = i << 1; j <= max; j += i) {
+                        sieve[j] = true;
+                    }
+                }
+            }
+            return primes;
+        }
+
     },
     render: function() {
         return (
             <div>
                 <h1>ReactCalc app</h1>
+                Available operators:
+                <ul>
+                    <li>+ add</li>
+                    <li>- subtract</li>
+                    <li>* multiply</li>
+                    <li>/ divide</li>
+                    <li>% remainder</li>
+                    <li>H highest prime</li>
+                </ul>
                 <table>
                     <tbody>
                         <tr>
